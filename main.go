@@ -38,15 +38,15 @@ func getSchools(w http.ResponseWriter, r *http.Request) {
 	if !ok || len(latString[0]) < 1 {
 		log.Println("Url Param 'lat' is missing")
 		fmt.Println("Url Param 'lat' is missing")
-		json.NewEncoder(w).Encode("Url Param 'lat' is missing")
-
+		http.Error(w, "Bad Request: Url Param 'lat' is missing", 400)
+		json.NewEncoder(w).Encode(http.Error)
 		return
 	}
 
 	lonString, ok := r.URL.Query()["lon"]
 	if !ok || len(lonString[0]) < 1 {
-		log.Println("Url Param 'lon' is missing")
-		json.NewEncoder(w).Encode("Url Param 'lon' is missing")
+		http.Error(w, "Bad Request: Url Param 'lat' is missing", 400)
+		json.NewEncoder(w).Encode(http.Error)
 		return
 	}
 
@@ -146,6 +146,12 @@ type IsolatedSchools struct {
 	Source            string      `json:"source"`
 	Distance          float64
 	DistanceKM        float64
+}
+
+type appError struct {
+	Error   error
+	Message string
+	Code    int
 }
 
 func MakeRequest(url string) ([]byte, error) {
