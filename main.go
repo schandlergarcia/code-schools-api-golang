@@ -130,30 +130,30 @@ type School struct {
 }
 
 type IsolatedSchools struct {
-	Name              string      `json:"name"`
-	Website           string      `json:"website"`
-	Levels            []string    `json:"levels"`
-	Format            string      `json:"format"`
-	FormatDescription string      `json:"format_description"`
-	Gender            string      `json:"gender"`
-	Description       string      `json:"description"`
-	Languages         []string    `json:"languages"`
-	MoneyNeeded       bool        `json:"money_needed"`
-	OnlineOnly        bool        `json:"online_only"`
-	NumberOfStudents  interface{} `json:"number_of_students"`
-	ContactName       string      `json:"contact_name"`
-	ContactNumber     string      `json:"contact_number"`
-	ContactEmail      string      `json:"contact_email"`
-	Latitude          float64     `json:"latitude"`
-	Longitude         float64     `json:"longitude"`
-	Street            string      `json:"street"`
-	City              string      `json:"city"`
-	State             string      `json:"state"`
-	Zip               string      `json:"zip"`
-	Published         int         `json:"published"`
-	UpdatedAt         time.Time   `json:"updated_at"`
-	Country           string      `json:"country"`
-	Source            string      `json:"source"`
+	Name              string
+	Website           string
+	Levels            []string
+	Format            string
+	FormatDescription string
+	Gender            string
+	Description       string
+	Languages         []string
+	MoneyNeeded       bool
+	OnlineOnly        bool
+	NumberOfStudents  interface{}
+	ContactName       string
+	ContactNumber     string
+	ContactEmail      string
+	Latitude          float64
+	Longitude         float64
+	Street            string
+	City              string
+	State             string
+	Zip               string
+	Published         int
+	UpdatedAt         time.Time
+	Country           string
+	Source            string
 	Distance          float64
 	DistanceKM        float64
 }
