@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -34,30 +33,37 @@ func getSchools(w http.ResponseWriter, r *http.Request) {
 	// Get the latitude URL paramater
 	latString, ok := r.URL.Query()["lat"]
 	if !ok || len(latString[0]) < 1 {
-		log.Println("Url Param 'lat' is missing")
-		http.Error(w, "Bad Request: Url Param 'lat' is missing", 400)
-		json.NewEncoder(w).Encode(http.Error)
+		respondWithError(w, http.StatusBadRequest, "Url Param 'lat' is missing")
 		return
 	}
 
 	// Get the longitude URL paramater
 	lonString, ok := r.URL.Query()["lon"]
 	if !ok || len(lonString[0]) < 1 {
-		http.Error(w, "Bad Request: Url Param 'lon' is missing", 400)
-		json.NewEncoder(w).Encode(http.Error)
+		respondWithError(w, http.StatusBadRequest, "Url Param 'lon' is missing")
 		return
 	}
 
 	// Convert the lat & lon to strings
 	latFloat, err := strconv.ParseFloat(latString[0], 64)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Please supply a valid lat paramater")
+		return
+	}
+
 	lonFloat, err := strconv.ParseFloat(lonString[0], 64)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Please supply a valid lon paramater")
+		return
+	}
+
 	currentLocation := haversine.Coord{Lat: latFloat, Lon: lonFloat}
 
 	// Make Request to the code.org Schools API
 	body, err := MakeRequest("https://code.org/schools.json")
 	if err != nil {
-		http.Error(w, err.Error(), 400)
-		fmt.Println(err)
+		respondWithError(w, http.StatusBadRequest, "Unable to connect to Code.org")
+		return
 	}
 
 	// parse the JSON response body
@@ -80,20 +86,18 @@ func getSchools(w http.ResponseWriter, r *http.Request) {
 	var finalSchools []IsolatedSchools
 	for i := 0; i < 3; i++ {
 		finalSchools = append(finalSchools, schools.Schools[i])
-		fmt.Println("User Type: " + schools.Schools[i].Name)
-		fmt.Printf("%f Miles\n", schools.Schools[i].Distance)
 	}
 
 	// Take the list of nearby schools & serialize the response
-	finalSchoolsAsString, err := json.Marshal(finalSchools)
-	if err != nil {
-		panic(err)
-	}
+	/*
+		finalSchoolsAsString, err := json.Marshal(finalSchools)
+		if err != nil {
+			panic(err)
+		}
+	*/
 
 	// Log and return the result
-	fmt.Println(string(finalSchoolsAsString))
-	json.NewEncoder(w).Encode(finalSchools)
-
+	respondWithJSON(w, http.StatusOK, finalSchools)
 }
 
 // A struct used for parsing the http response
@@ -177,4 +181,18 @@ func MakeRequest(url string) ([]byte, error) {
 
 	// Reaturn the response body
 	return []byte(body), err
+}
+
+func respondWithError(w http.ResponseWriter, code int, message string) {
+	respondWithJSON(w, code, map[string]string{"error": message})
+}
+
+func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
+	//encode payload to json
+	response, _ := json.Marshal(payload)
+
+	// set headers and write response
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+	w.Write(response)
 }
