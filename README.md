@@ -1,9 +1,8 @@
+# Code.org Schools Geolcation API
 
-# go-getting-started
+Code.org provides a robust database of Commputer science courses and schools ranging from beginner all the way through to university courses. This Go App takes the data from thier endpoint and allows you to search for the nearest courses to the location provided.
 
-A barebones Go app, which can easily be deployed to Heroku.
-
-This application supports the [Getting Started with Go on Heroku](https://devcenter.heroku.com/articles/getting-started-with-go) article - check it out.
+Check out the [Code.org Schools API](https://code.org/learn/find-school/json).
 
 ## Running Locally
 
@@ -39,7 +38,6 @@ $ heroku open
 or
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
 
 ## Documentation
 

@@ -14,6 +14,7 @@ import (
 
 	"github.com/gorilla/mux"
 	_ "github.com/heroku/x/hmetrics/onload"
+	"github.com/umahmood/haversine"
 )
 
 func main() {
@@ -54,9 +55,12 @@ func homeLink(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(body, &schools)
 
+	currentLocation := haversine.Coord{Lat: latFloat, Lon: lonFloat}
+
 	for i := 0; i < len(schools.Schools); i++ {
-		dist := distance(latFloat, lonFloat, schools.Schools[i].Latitude, schools.Schools[i].Longitude, "M")
-		schools.Schools[i].Distance = dist
+		schoolLocation := haversine.Coord{Lat: schools.Schools[i].Latitude, Lon: schools.Schools[i].Longitude}
+		mi, km := haversine.Distance(currentLocation, schoolLocation)
+		schools.Schools[i].Distance = mi
 	}
 
 	sort.Slice(schools.Schools, func(i, j int) bool { return schools.Schools[i].Distance < schools.Schools[j].Distance })
