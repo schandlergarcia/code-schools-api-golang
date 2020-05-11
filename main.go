@@ -17,19 +17,18 @@ import (
 )
 
 func main() {
-	port := os.Getenv("PORT")
 
+	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
 
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", homeLink).Methods("GET")
+	router.HandleFunc("/", getSchools).Methods("GET")
 	log.Fatal(http.ListenAndServe(":"+port, router))
-
 }
 
-func homeLink(w http.ResponseWriter, r *http.Request) {
+func getSchools(w http.ResponseWriter, r *http.Request) {
 	body, err := MakeRequest("https://code.org/schools.json")
 	if err != nil {
 		fmt.Println(err)
@@ -38,12 +37,14 @@ func homeLink(w http.ResponseWriter, r *http.Request) {
 	latString, ok := r.URL.Query()["lat"]
 	if !ok || len(latString[0]) < 1 {
 		log.Println("Url Param 'lat' is missing")
+		fmt.Println("Url Param 'lat' is missing")
 		return
 	}
 
 	lonString, ok := r.URL.Query()["lon"]
 	if !ok || len(lonString[0]) < 1 {
-		log.Println("Url Param 'lat' is missing")
+		log.Println("Url Param 'lon' is missing")
+		fmt.Println("Url Param 'lon' is missing")
 		return
 	}
 
