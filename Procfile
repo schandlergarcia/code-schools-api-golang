@@ -1,1 +1,1 @@
-web: bin/code-school-api
+web: bin/code-schools-api-golang

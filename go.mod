@@ -1,4 +1,4 @@
-module github.com/heroku/go-getting-started
+module github.com/schandlergarcia/code-schools-api-golang
 
 go 1.12
 

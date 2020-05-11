@@ -2,6 +2,6 @@
   "name": "Code.org School API Search",
   "description": "Search local computer science schools by geolocation",
   "keywords": ["getting-started", "go", "demo", "geolocation"],
-  "website": "http://github.com/heroku/go-getting-started",
-  "repository": "http://github.com/heroku/go-getting-started"
+  "website": "https://github.com/schandlergarcia/code-schools-api-golang",
+  "repository": "https://github.com/schandlergarcia/code-schools-api-golang"
 }
