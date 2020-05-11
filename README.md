@@ -6,7 +6,7 @@ Check out the [Code.org Schools API](https://code.org/learn/find-school/json).
 
 ## Running Locally
 
-Make sure you have [Go](http://golang.org/doc/install) version 1.12 or newer and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+Make sure you have [Go](http://golang.org/doc/install) version 1.12 or newer and the [Heroku Toolbelt](https://toolbelt.heroku.comgit/) installed.
 
 ```sh
 $ git clone https://github.com/schandlergarcia/code-schools-api-golang

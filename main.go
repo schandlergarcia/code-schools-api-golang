@@ -17,12 +17,13 @@ import (
 )
 
 func main() {
-
+	// Ensure the port has been set
 	port := os.Getenv("PORT")
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
 
+	// crete a router using MUX and process the GET request
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", getSchools).Methods("GET")
 	log.Fatal(http.ListenAndServe(":"+port, router))
@@ -95,6 +96,7 @@ func getSchools(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// A struct used for parsing the http response
 type School struct {
 	Description string `json:"description"`
 	Generated   string `json:"generated"`
@@ -129,6 +131,7 @@ type School struct {
 	} `json:"schools"`
 }
 
+// A struct used for soring the sorted school data
 type IsolatedSchools struct {
 	Name              string      `json:"name"`
 	Website           string      `json:"website"`
@@ -160,15 +163,18 @@ type IsolatedSchools struct {
 
 func MakeRequest(url string) ([]byte, error) {
 
+	// Make the initila request to the Code.org API
 	res, err := http.Get(url)
 	if err != nil {
 		return nil, err
 	}
 
+	// Read the body of the callout response
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
 
+	// Reaturn the response body
 	return []byte(body), err
 }
