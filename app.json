@@ -1,12 +1,7 @@
 {
-  "name": "Start on Heroku: Go",
-  "description": "Go Getting Started Example App",
-  "keywords": [
-    "getting-started",
-    "go",
-    "sample",
-    "example"
-  ],
+  "name": "Code.org School API Search",
+  "description": "Search local computer science schools by geolocation",
+  "keywords": ["getting-started", "go", "demo", "geolocation"],
   "website": "http://github.com/heroku/go-getting-started",
   "repository": "http://github.com/heroku/go-getting-started"
 }
