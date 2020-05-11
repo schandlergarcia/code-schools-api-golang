@@ -38,13 +38,15 @@ func getSchools(w http.ResponseWriter, r *http.Request) {
 	if !ok || len(latString[0]) < 1 {
 		log.Println("Url Param 'lat' is missing")
 		fmt.Println("Url Param 'lat' is missing")
+		json.NewEncoder(w).Encode("Url Param 'lat' is missing")
+
 		return
 	}
 
 	lonString, ok := r.URL.Query()["lon"]
 	if !ok || len(lonString[0]) < 1 {
 		log.Println("Url Param 'lon' is missing")
-		fmt.Println("Url Param 'lon' is missing")
+		json.NewEncoder(w).Encode("Url Param 'lon' is missing")
 		return
 	}
 
@@ -77,7 +79,7 @@ func getSchools(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-
+	w.Header().Add("Content-Type", "application/json")
 	fmt.Println(string(finalSchoolsAsString))
 	json.NewEncoder(w).Encode(finalSchools)
 
