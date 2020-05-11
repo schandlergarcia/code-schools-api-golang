@@ -61,6 +61,7 @@ func homeLink(w http.ResponseWriter, r *http.Request) {
 		schoolLocation := haversine.Coord{Lat: schools.Schools[i].Latitude, Lon: schools.Schools[i].Longitude}
 		mi, km := haversine.Distance(currentLocation, schoolLocation)
 		schools.Schools[i].Distance = mi
+		schools.Schools[i].DistanceKM = km
 	}
 
 	sort.Slice(schools.Schools, func(i, j int) bool { return schools.Schools[i].Distance < schools.Schools[j].Distance })
@@ -112,6 +113,7 @@ type School struct {
 		Country           string      `json:"country"`
 		Source            string      `json:"source"`
 		Distance          float64
+		DistanceKM        float64
 	} `json:"schools"`
 }
 
@@ -141,6 +143,7 @@ type IsolatedSchools struct {
 	Country           string      `json:"country"`
 	Source            string      `json:"source"`
 	Distance          float64
+	DistanceKM        float64
 }
 
 func MakeRequest(url string) ([]byte, error) {
