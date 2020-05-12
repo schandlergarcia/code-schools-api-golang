@@ -1,4 +1,4 @@
-# Code.org Schools Geolcation API
+# Code.org Schools Geolocation API
 
 Code.org provides a robust database of Commputer science courses and schools ranging from beginner all the way through to university courses. This Go App takes the data from thier endpoint and allows you to search for the nearest courses to the location provided. This App is designed to be deployed onto Heroku using the [Go Buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-go).
 
