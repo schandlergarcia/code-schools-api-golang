@@ -24,7 +24,7 @@ func main() {
 
 	// crete a router using MUX and process the GET request
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", getSchools).Methods("GET")
+	router.HandleFunc("/", GetSchools).Methods("GET")
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
