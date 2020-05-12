@@ -28,7 +28,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
-func getSchools(w http.ResponseWriter, r *http.Request) {
+func GetSchools(w http.ResponseWriter, r *http.Request) {
 
 	// Get the latitude URL paramater
 	latString, ok := r.URL.Query()["lat"]
@@ -87,15 +87,6 @@ func getSchools(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < 3; i++ {
 		finalSchools = append(finalSchools, schools.Schools[i])
 	}
-
-	// Take the list of nearby schools & serialize the response
-	/*
-		finalSchoolsAsString, err := json.Marshal(finalSchools)
-		if err != nil {
-			panic(err)
-		}
-	*/
-
 	// Log and return the result
 	respondWithJSON(w, http.StatusOK, finalSchools)
 }
