@@ -1,6 +1,10 @@
 # Code.org Schools Geolocation API
 
-Code.org provides a robust database of Commputer science courses and schools ranging from beginner all the way through to university courses. This Go App takes the data from thier endpoint and allows you to search for the nearest courses to the location provided. This App is designed to be deployed onto Heroku using the [Go Buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-go).
+Code.org provides a robust database of computer science courses and schools ranging from beginner all the way through to university courses. This Go App takes the data from their endpoint and allows you to search for the nearest courses to the location provided. This App is designed to be deployed onto Heroku using the [Go Buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-go).
+
+This API was created to work with the [Code.org Local School Search Lightning Web Component](https://github.com/schandlergarcia/code-school-search-lwc).
+
+The Lightning Web Component demonstrates a method for bringing external data into a Lightning Web Component. This component utilizes the code.org computer science school & program database to display the nearest three schools to a given property.
 
 Check out the [Code.org Schools API](https://code.org/learn/find-school/json).
 
@@ -60,6 +64,18 @@ or
 
   - **Code:** 404 NOT FOUND <br />
     **Content:** `{ error : "Location not found" }`
+
+- **Sample Call from Apex:**
+
+```apex
+  @AuraEnabled(cacheable=true)
+  public static String getNearbyCodeSchools(Decimal propertyLatitude, Decimal propertyLongitude) {
+    // Construct our Callout URL with our Lat and Lon from the component
+    String calloutURL = 'https://enigmatic-gorge-00974.herokuapp.com/?lat=' + propertyLatitude + '&lon=' + propertyLongitude;
+    String response = calloutToGoServer(calloutUrl);
+    return response;
+  }
+```
 
 ## Go on Heroku
 
