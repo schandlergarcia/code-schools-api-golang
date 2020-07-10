@@ -28,6 +28,8 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
+// GetSchools - gets the coordinates from the URL path and verifies that they are provided. The app then calls out to the Code.org Schools API - once successful,
+// it then uses the haversine library to calculate the 3 nearest schools to the coordinates.
 func GetSchools(w http.ResponseWriter, r *http.Request) {
 
 	// Get the latitude URL paramater
@@ -70,7 +72,7 @@ func GetSchools(w http.ResponseWriter, r *http.Request) {
 	var schools School
 	json.Unmarshal(body, &schools)
 
-	// Loop through the schools and calculate the distance from the supplied cordinates
+	// Loop through the schools and calculate the distance from the supplied coordinates
 	for i := 0; i < len(schools.Schools); i++ {
 		schoolLocation := haversine.Coord{Lat: schools.Schools[i].Latitude, Lon: schools.Schools[i].Longitude}
 		mi, km := haversine.Distance(currentLocation, schoolLocation)
@@ -78,7 +80,7 @@ func GetSchools(w http.ResponseWriter, r *http.Request) {
 		schools.Schools[i].DistanceKM = km
 	}
 
-	// Sort the schools by their distance from the supplied cordinates
+	// Sort the schools by their distance from the supplied coordinates
 	sort.Slice(schools.Schools, func(i, j int) bool { return schools.Schools[i].Distance < schools.Schools[j].Distance })
 
 	// Loop through the schools and get the nearest three for the response
@@ -91,7 +93,7 @@ func GetSchools(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, finalSchools)
 }
 
-// A struct used for parsing the http response
+// School - A struct used for parsing the http response
 type School struct {
 	Description string `json:"description"`
 	Generated   string `json:"generated"`
@@ -126,7 +128,7 @@ type School struct {
 	} `json:"schools"`
 }
 
-// A struct used for soring the sorted school data
+// IsolatedSchools -  A struct used for sorting the sorted school data
 type IsolatedSchools struct {
 	Name              string      `json:"name"`
 	Website           string      `json:"website"`
@@ -156,6 +158,7 @@ type IsolatedSchools struct {
 	DistanceKM        float64     `json:"distanceKM"`
 }
 
+// MakeRequest -  Make the HTTP Request
 func MakeRequest(url string) ([]byte, error) {
 
 	// Make the initila request to the Code.org API
